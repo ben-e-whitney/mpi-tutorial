@@ -25,7 +25,7 @@ NORVIG_WORDS_TRIMMED=$(DIR_DAT)/telephone/norvig_words_trimmed.txt
 ARPABET_FILTERER=$(DIR_SCR)/winnow_arpabet
 ARPABET_DICT_COMMON=$(DIR_DAT)/telephone/arpabet_common.txt
 
-.PHONY: hello hello-solution telephone telephone-solution regenerate-dictionary clean
+.PHONY: hello hello-solution telephone telephone-solution regenerate-dictionary homework homework-solution clean
 
 $(ARPABET_DICT_LATIN1):
 	wget $(ARPABET_DICT_LATIN1_URL) --output-document=$@
@@ -51,6 +51,8 @@ hello: $(DIR_BIN)/hello/main
 hello-solution: $(DIR_BIN)/hello/solution
 telephone: $(DIR_BIN)/telephone/main
 telephone-solution: $(DIR_BIN)/telephone/solution
+homework: $(DIR_BIN)/homework/main
+homework-solution: $(DIR_BIN)/homework/solution
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	mkdir --parents $(dir $@)
@@ -60,8 +62,10 @@ $(DIR_BIN)/hello/main: $(DIR_OBJ)/hello/main.o
 $(DIR_BIN)/hello/solution: $(DIR_OBJ)/hello/solution.o
 $(DIR_BIN)/telephone/main: $(addprefix $(DIR_OBJ)/telephone/,arpabet.o main.o mutate.o parse.o word_similarity.o)
 $(DIR_BIN)/telephone/solution: $(addprefix $(DIR_OBJ)/telephone/,arpabet.o solution.o mutate.o parse.o word_similarity.o)
+$(DIR_BIN)/homework/main: $(addprefix $(DIR_OBJ)/homework/,main.o times_table.o)
+$(DIR_BIN)/homework/solution: $(addprefix $(DIR_OBJ)/homework/,solution.o times_table.o)
 
-$(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution $(DIR_BIN)/telephone/main $(DIR_BIN)/telephone/solution:
+$(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution $(DIR_BIN)/telephone/main $(DIR_BIN)/telephone/solution $(DIR_BIN)/homework/main $(DIR_BIN)/homework/solution:
 	mkdir --parents $(dir $@)
 	$(CC) $(LDFLAGS) -o $@ $^
 
