@@ -1,2 +1,4 @@
+bin
+obj
 include/telephone/arpabet.h
 src/telephone/arpabet.c

@@ -53,6 +53,7 @@ telephone: $(DIR_BIN)/telephone/main
 telephone-solution: $(DIR_BIN)/telephone/solution
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
+	mkdir --parents $(dir $@)
 	$(CC) $(CCFLAGS) -I $(DIR_INC)/$(dir $*) -o $@ -c $<
 
 $(DIR_BIN)/hello/main: $(DIR_OBJ)/hello/main.o
@@ -61,6 +62,7 @@ $(DIR_BIN)/telephone/main: $(addprefix $(DIR_OBJ)/telephone/,arpabet.o main.o mu
 $(DIR_BIN)/telephone/solution: $(addprefix $(DIR_OBJ)/telephone/,arpabet.o solution.o mutate.o parse.o word_similarity.o)
 
 $(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution $(DIR_BIN)/telephone/main $(DIR_BIN)/telephone/solution:
+	mkdir --parents $(dir $@)
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
