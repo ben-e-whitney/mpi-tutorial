@@ -25,7 +25,7 @@ NORVIG_WORDS_TRIMMED=$(DIR_DAT)/telephone/norvig_words_trimmed.txt
 ARPABET_FILTERER=$(DIR_SCR)/winnow_arpabet
 ARPABET_DICT_COMMON=$(DIR_DAT)/telephone/arpabet_common.txt
 
-.PHONY: hello hello-solution regenerate-dictionary clean
+.PHONY: hello hello-solution telephone telephone-solution regenerate-dictionary clean
 
 $(ARPABET_DICT_LATIN1):
 	wget $(ARPABET_DICT_LATIN1_URL) --output-document=$@
@@ -49,14 +49,18 @@ $(DIR_SRC)/telephone/arpabet.c: $(ARPABET_MAKER) $(ARPABET_SCHEMA) $(ARPABET_DIC
 
 hello: $(DIR_BIN)/hello/main
 hello-solution: $(DIR_BIN)/hello/solution
+telephone: $(DIR_BIN)/telephone/main
+telephone-solution: $(DIR_BIN)/telephone/solution
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	$(CC) $(CCFLAGS) -I $(DIR_INC)/$(dir $*) -o $@ -c $<
 
 $(DIR_BIN)/hello/main: $(DIR_OBJ)/hello/main.o
 $(DIR_BIN)/hello/solution: $(DIR_OBJ)/hello/solution.o
+$(DIR_BIN)/telephone/main: $(addprefix $(DIR_OBJ)/telephone/,arpabet.o main.o mutate.o parse.o word_similarity.o)
+$(DIR_BIN)/telephone/solution: $(addprefix $(DIR_OBJ)/telephone/,arpabet.o solution.o mutate.o parse.o word_similarity.o)
 
-$(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution
+$(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution $(DIR_BIN)/telephone/main $(DIR_BIN)/telephone/solution:
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
