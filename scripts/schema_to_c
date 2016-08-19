@@ -161,7 +161,7 @@ if __name__ == '__main__':
     ]
     #Getting a bunch of constants so I don't have to both with dynamic
     #allocation in the C code.
-    with open(args.filename_dictionary, 'r', encoding='latin1') as f:
+    with open(args.filename_dictionary, 'r') as f:
         dictionary_length = 0
         max_line_length = 0
         max_word_length = 0
