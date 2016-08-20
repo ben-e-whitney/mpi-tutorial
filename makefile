@@ -25,6 +25,10 @@ NORVIG_WORDS_TRIMMED=$(DIR_DAT)/telephone/norvig_words_trimmed.txt
 ARPABET_FILTERER=$(DIR_SCR)/winnow_arpabet
 ARPABET_DICT_COMMON=$(DIR_DAT)/telephone/arpabet_common.txt
 
+CSV_CONSTANTS_MAKER=$(DIR_SCR)/csv_to_c
+CSV=$(DIR_DAT)/prom/countries.csv
+CSV_H=$(DIR_INC)/prom/constants.h
+
 .PHONY: hello hello-solution telephone telephone-solution regenerate-dictionary homework homework-solution clean
 
 $(ARPABET_DICT_LATIN1):
@@ -44,8 +48,11 @@ regenerate-dictionary: $(ARPABET_DICT_UTF8) $(NORVIG_WORDS_TRIMMED)
 	$(ARPABET_FILTERER) $(NORVIG_WORDS_TRIMMED) $(ARPABET_DICT_UTF8) >> $(ARPABET_DICT_COMMON)
 
 #This will also generate the header.
-$(DIR_SRC)/telephone/arpabet.c: $(ARPABET_MAKER) $(ARPABET_SCHEMA) $(ARPABET_DICT_COMMON)
-	$(ARPABET_MAKER) $(ARPABET_SCHEMA) $(ARPABET_DICT_COMMON) $(DIR_INC)/telephone/arpabet.h $@
+$(ARPABET_C): $(ARPABET_MAKER) $(ARPABET_SCHEMA) $(ARPABET_DICT_COMMON)
+	$(ARPABET_MAKER) $(ARPABET_SCHEMA) $(ARPABET_DICT_COMMON) $(ARPABET_H) $@
+
+$(CSV_H): $(CSV_CONSTANTS_MAKER) $(CSV)
+	$(CSV_CONSTANTS_MAKER) $(CSV) > $@
 
 hello: $(DIR_BIN)/hello/main
 hello-solution: $(DIR_BIN)/hello/solution
@@ -70,4 +77,4 @@ $(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution $(DIR_BIN)/telephone/main $(DIR_
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
-	$(RM) $(DIR_OBJ)/*/*.o $(DIR_BIN)/*/* $(ARPABET_H) $(ARPABET_C)
+	$(RM) $(DIR_OBJ)/*/*.o $(DIR_BIN)/*/* $(ARPABET_H) $(ARPABET_C) $(CSV_H)
