@@ -18,13 +18,16 @@ if __name__ == '__main__':
     #the C code.
     with open(args.filename_csv, 'r') as f:
         csv_length = 0
+        max_line_length = 0
         max_name_length = 0
         for line in filter(lambda line: not line.startswith('#'), f):
             csv_length += 1
+            max_line_length = max(max_line_length, len(line))
             max_name_length = max(max_name_length, len(line.split('\t')[-1]))
     macros = [
         c.Macro('FILENAME_CSV', '"{fil}"'.format(fil=args.filename_csv)),
         c.Macro('CSV_LENGTH', csv_length),
+        c.Macro('MAX_LINE_LENGTH', max_line_length),
         c.Macro('MAX_NAME_LENGTH', max_name_length),
     ]
     guard = c.IncludeGuard(args.filename_csv)
