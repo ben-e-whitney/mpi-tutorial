@@ -6,6 +6,8 @@ import itertools
 import os
 import sys
 
+import c
+
 parser = argparse.ArgumentParser()
 parser.add_argument('filename_schema')
 parser.add_argument('filename_dictionary')
@@ -17,115 +19,9 @@ GENERATED_NOTE = (
     '//Generated with the command\n//    {com}'
 ).format(com=' '.join(sys.argv))
 
-class Macro:
-    def __init__(self, name, value):
-        self.name = name
-        self.value = value
-
-    def __str__(self):
-        return '#define {nam} {val}'.format(nam=self.name, val=self.value)
-
-class Typedef:
-    def __init__(self, type_specifier, declarator):
-        self.type_specifier = type_specifier
-        self.declarator = declarator
-
-    def __str__(self):
-        return 'typedef {spe} {dec};'.format(spe=self.type_specifier,
-                                             dec=self.declarator)
-
-class Enum:
-    def __init__(self, name, values=None):
-        self.name = 'enum {name}'.format(name=name)
-        self.values = values or []
-
-    def append(self, value):
-        self.values.append(value)
-
-    def __str__(self):
-        return '{name} {{{vals}}};'.format(
-            name=self.name,
-            vals=', '.join(self.values)
-        )
-
-class Function:
-    def __init__(self, name, argument_types, return_type, argument_names,
-                 lines):
-        self.name = name
-        self.argument_types = argument_types
-        self.return_type = return_type
-        self.argument_names = argument_names
-        assert len(self.argument_types) == len(self.argument_names)
-        self.lines = lines
-
-    def arguments(self, names=False):
-        return self.argument_types if not names else tuple(map(
-            lambda t, n: '{t} {n}'.format(t=t, n=n),
-            self.argument_types,
-            self.argument_names,
-        ))
-
-    def signature(self, names=False):
-        return '{return_type} {name}({arglist}){end}'.format(
-            return_type=self.return_type,
-            name=self.name,
-            arglist=', '.join(self.arguments(names=names)),
-            end=';' if not names else ' {',
-        )
-
-    def __str__(self):
-        return '\n'.join([
-            self.signature(names=True),
-            *self.lines,
-            '}',
-        ])
-
-class Classifier(Function):
-    def __init__(self, name, argument_type, return_type, pairings,
-                 argument_name='x',
-                 comparer=lambda a, b: '{a} == {b}'.format(a=a, b=b)):
-        lines = [
-            'if ({condition}) return {key};'.format(
-                key=key,
-                condition=' || '.join(
-                    comparer(argument_name, value) for value in values
-                ),
-            ) for key, values in pairings.items()
-        ]
-        lines.extend([
-            (
-                'fprintf(stderr, "Unrecognized {arg_t} \'{flg}.\'\\n", {var});'
-            ).format(
-                arg_t=argument_type,
-                #Good enough for now.
-                flg='%d' if 'enum' in argument_type else '%s',
-                var=argument_name
-            ),
-            'exit(1);',
-        ])
-        super().__init__(name, [argument_type], return_type, [argument_name],
-                         lines)
-
-class Header:
-    def __init__(self, name):
-        self.name = name
-
-    def __str__(self):
-        return '#include <{nam}>'.format(nam=self.name)
-
-class IncludeGuard:
-    def __init__(self, name):
-        self.name = os.path.basename(name).replace('.', '_').upper()
-
-    def begin(self):
-        return '#ifndef {nam}\n#define {nam}'.format(nam=self.name)
-
-    @staticmethod
-    def end():
-        return '#endif'
-
 if __name__ == '__main__':
-    enums = [Enum('phoneme_family'), Enum('phoneme_genus'), Enum('phoneme')]
+    enums = [c.Enum('phoneme_family'), c.Enum('phoneme_genus'),
+             c.Enum('phoneme')]
     pairings = tuple(collections.defaultdict(list) for _ in enums)
     with open(args.filename_schema, 'r') as f:
         for line in f:
@@ -139,19 +35,19 @@ if __name__ == '__main__':
             if indentation == len(enums) - 1:
                 pairings[-1][name].append('"{nam}"'.format(nam=name))
     classifiers = [
-        Classifier(
+        c.Classifier(
             'classify_family',
             enums[1].name,
             enums[0].name,
             pairings[0],
             ),
-        Classifier(
+        c.Classifier(
             'classify_genus',
             enums[2].name,
             enums[1].name,
             pairings[1],
         ),
-        Classifier(
+        c.Classifier(
             'classify_phoneme',
             'char *',
             enums[2].name,
@@ -173,20 +69,20 @@ if __name__ == '__main__':
             max_word_length = max(max_word_length, len(pieces[0]))
             max_num_phonemes = max(max_num_phonemes, len(pieces) - 1)
     macros = [
-        Macro('FILENAME_DICTIONARY',
+        c.Macro('FILENAME_DICTIONARY',
               '"{fil}"'.format(fil=args.filename_dictionary)),
-        Macro('DICTIONARY_LENGTH', dictionary_length),
-        Macro('MAX_LINE_LENGTH', max_line_length),
-        Macro('MAX_WORD_LENGTH', max_word_length),
-        Macro('MAX_NUM_PHONEMES', max_num_phonemes),
+        c.Macro('DICTIONARY_LENGTH', dictionary_length),
+        c.Macro('MAX_LINE_LENGTH', max_line_length),
+        c.Macro('MAX_WORD_LENGTH', max_word_length),
+        c.Macro('MAX_NUM_PHONEMES', max_num_phonemes),
     ]
     with open(args.filename_header, 'w') as f:
-        guard = IncludeGuard(args.filename_header)
+        guard = c.IncludeGuard(args.filename_header)
         f.write('\n'.join(map(str, itertools.chain(
             [guard.begin()],
             [GENERATED_NOTE],
             macros,
-            [Typedef('unsigned char', 'accent')],
+            [c.Typedef('unsigned char', 'accent')],
             enums,
             [classifier.signature(names=False) for classifier in classifiers],
             [guard.end()],
@@ -196,7 +92,7 @@ if __name__ == '__main__':
         f.write('\n'.join(map(str, itertools.chain(
             [GENERATED_NOTE],
             #It would be better to get '"arpabet.h"', but it's fine.
-            [Header(name) for name in (
+            [c.Header(name) for name in (
                 os.path.basename(args.filename_header),
                 'stdio.h',
                 'stdlib.h',
