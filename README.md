@@ -8,3 +8,8 @@ Acknowledgments
 [corpus]: https://catalog.ldc.upenn.edu/LDC2006T13
 [LDC]: https://www.ldc.upenn.edu/
 [agreement]: https://catalog.ldc.upenn.edu/license/web-1t-5-gram-version-1.pdf
+
+`data/prom/countries.csv` is taken from [the Google Developers Dataset Public Language site][google], where it is made available under the [Creative Commons Attribution 3.0 License][cc].
+
+[google]: https://developers.google.com/public-data/docs/canonical/countries_csv
+[cc]: https://creativecommons.org/licenses/by/3.0/
