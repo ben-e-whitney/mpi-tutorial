@@ -9,13 +9,12 @@ hello
 -----
 We begin with a simple 'hello world' program. Edit the file `src/hello/main.c`, and then compile it with the command `make hello`. When you run it (`mpirun -n $N bin/hello/main`), each process should print out its rank. You can look at `src/hello/solution.c` if you need help.
 
-Helpful links: [`MPI_Init`][MPI_Init], [`MPI_Finalize`][MPI_Finalize], [`MPI_Comm_rank`][MPI_Comm_rank], [`MPI_Comm_size`][MPI_Comm_size], [`MPI_COMM_WORLD`][MPI_COMM_WORLD]
+Helpful links: [`MPI_Init`][MPI_Init], [`MPI_Finalize`][MPI_Finalize], [`MPI_Comm_rank`][MPI_Comm_rank], [`MPI_Comm_size`][MPI_Comm_size]
 
-[MPI_Init]: 
-[MPI_Finalize]: 
-[MPI_Comm_size]: 
-[MPI_Comm_rank]: 
-[MPI_COMM_WORLD]: 
+[MPI_Init]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Init.html
+[MPI_Finalize]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Finalize.html
+[MPI_Comm_rank]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Comm_rank.html
+[MPI_Comm_size]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Comm_size.html
 
 telephone
 ---------
@@ -23,10 +22,9 @@ Telephone is a game for children (or processors). All of the children sit in a c
 
 Edit the file `src/telephone/main.c` so that each processor passes the message to the processor with rank one greater. (Who should the processor with rank `size - 1` communicate with?) The message is held in the variable `whispers`, which is an array of length `argc - 1` of arrays of length `MAX_WORD_LENGTH` of `char`s. Compile with `make telephone` and run with `mpirun -n $N bin/telephone/main $message`. You can look at `src/telephone/solution.c` if you need help.
 
-Helpful links: [`MPI_Send`][MPI_Send], [`MPI_Recv`][MPI_Recv], [`MPI_Status`][MPI_Status]
-[MPI_Send]: 
-[MPI_Recv]: 
-[MPI_Status]: 
+Helpful links: [`MPI_Send`][MPI_Send], [`MPI_Recv`][MPI_Recv]
+[MPI_Send]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Send.html
+[MPI_Recv]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Recv.html
 
 homework
 --------
@@ -38,9 +36,9 @@ You are a student in an arithmetic class, and this week your teacher is teaching
 Edit the file `src/homework/main.c` so that every processor ends up with the full times table, which is held in the variable `times_table`, an array of length `size` of arrays of length `size` of `char`s. Compile with `make homework` and run with `mpirun -n $N bin/homework/main`. You can look at `src/homework/solution.c` if you need help.
 
 Helpful links: [`MPI_Gather`][MPI_Gather], [`MPI_Bcast`][MPI_Bcast], [`MPI_Allgather`][MPI_Allgather]
-[MPI_Gather]: 
-[MPI_Bcast]: 
-[MPI_Allgather]: 
+[MPI_Gather]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Gather.html
+[MPI_Bcast]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Bcast.html
+[MPI_Allgather]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Allgather.html
 
 prom
 ----
@@ -66,10 +64,9 @@ Each country has an array `neighbors` of `bool`s. `neighbors[i]` being true mean
 
 Edit the file `src/prom/main.c` so that your code accomplishes the above. Compile with `make prom` and run with `mpirun -n $N bin/prom/main`. You can look at `src/prom/solution.c` if you need help.
 
-Helpful links: [`MPI_Isend`][MPI_Isend], [`MPI_Irecv`][MPI_Irecv], [`MPI_Request`][MPI_Request]
-[MPI_Isend]: 
-[MPI_Irecv]: 
-[MPI_Request]: 
+Helpful links: [`MPI_Isend`][MPI_Isend], [`MPI_Irecv`][MPI_Irecv]
+[MPI_Isend]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Isend.html
+[MPI_Irecv]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Irecv.html
 
 Acknowledgments
 ===============
