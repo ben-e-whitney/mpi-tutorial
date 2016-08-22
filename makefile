@@ -1,6 +1,6 @@
 CC=mpicc
 CCFLAGS=-std=c99 -Wall -Werror
-LDFLAGS=
+LDFLAGS=-lm
 DIR_INC=include
 DIR_SRC=src
 DIR_OBJ=obj
@@ -29,7 +29,10 @@ CSV_CONSTANTS_MAKER=$(DIR_SCR)/csv_to_c
 CSV=$(DIR_DAT)/prom/countries.csv
 CSV_H=$(DIR_INC)/prom/constants.h
 
-.PHONY: hello hello-solution telephone telephone-solution regenerate-dictionary homework homework-solution clean
+.PHONY: all all-solution hello hello-solution telephone telephone-solution regenerate-dictionary homework homework-solution prom prom-solution clean
+
+all: hello telephone homework prom
+all-solution:hello-solution telephone-solution homework-solution prom-solution
 
 $(ARPABET_DICT_LATIN1):
 	wget $(ARPABET_DICT_LATIN1_URL) --output-document=$@
@@ -60,10 +63,14 @@ telephone: $(DIR_BIN)/telephone/main
 telephone-solution: $(DIR_BIN)/telephone/solution
 homework: $(DIR_BIN)/homework/main
 homework-solution: $(DIR_BIN)/homework/solution
+prom: $(DIR_BIN)/prom/main
+prom-solution: $(DIR_BIN)/prom/solution
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	mkdir --parents $(dir $@)
 	$(CC) $(CCFLAGS) -I $(DIR_INC)/$(dir $*) -o $@ -c $<
+
+$(addprefix $(DIR_OBJ)/prom/,main.o solution.o parse.o coordinates.o): $(CSV_H)
 
 $(DIR_BIN)/hello/main: $(DIR_OBJ)/hello/main.o
 $(DIR_BIN)/hello/solution: $(DIR_OBJ)/hello/solution.o
@@ -71,8 +78,10 @@ $(DIR_BIN)/telephone/main: $(addprefix $(DIR_OBJ)/telephone/,arpabet.o main.o mu
 $(DIR_BIN)/telephone/solution: $(addprefix $(DIR_OBJ)/telephone/,arpabet.o solution.o mutate.o parse.o word_similarity.o)
 $(DIR_BIN)/homework/main: $(addprefix $(DIR_OBJ)/homework/,main.o times_table.o)
 $(DIR_BIN)/homework/solution: $(addprefix $(DIR_OBJ)/homework/,solution.o times_table.o)
+$(DIR_BIN)/prom/main: $(addprefix $(DIR_OBJ)/prom/,main.o parse.o coordinates.o neighbors.o)
+$(DIR_BIN)/prom/solution: $(addprefix $(DIR_OBJ)/prom/,solution.o parse.o coordinates.o neighbors.o)
 
-$(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution $(DIR_BIN)/telephone/main $(DIR_BIN)/telephone/solution $(DIR_BIN)/homework/main $(DIR_BIN)/homework/solution:
+$(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution $(DIR_BIN)/telephone/main $(DIR_BIN)/telephone/solution $(DIR_BIN)/homework/main $(DIR_BIN)/homework/solution $(DIR_BIN)/prom/main $(DIR_BIN)/prom/solution:
 	mkdir --parents $(dir $@)
 	$(CC) $(LDFLAGS) -o $@ $^
 
