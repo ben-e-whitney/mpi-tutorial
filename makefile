@@ -67,7 +67,7 @@ prom: $(DIR_BIN)/prom/main
 prom-solution: $(DIR_BIN)/prom/solution
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
-	mkdir --parents $(dir $@)
+	mkdir -p $(dir $@)
 	$(CC) $(CCFLAGS) -I $(DIR_INC)/$(dir $*) -o $@ -c $<
 
 $(addprefix $(DIR_OBJ)/prom/,main.o solution.o parse.o coordinates.o): $(CSV_H)
@@ -82,7 +82,7 @@ $(DIR_BIN)/prom/main: $(addprefix $(DIR_OBJ)/prom/,main.o parse.o coordinates.o 
 $(DIR_BIN)/prom/solution: $(addprefix $(DIR_OBJ)/prom/,solution.o parse.o coordinates.o neighbors.o)
 
 $(DIR_BIN)/hello/main $(DIR_BIN)/hello/solution $(DIR_BIN)/telephone/main $(DIR_BIN)/telephone/solution $(DIR_BIN)/homework/main $(DIR_BIN)/homework/solution $(DIR_BIN)/prom/main $(DIR_BIN)/prom/solution:
-	mkdir --parents $(dir $@)
+	mkdir -p $(dir $@)
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
