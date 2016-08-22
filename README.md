@@ -42,6 +42,35 @@ Helpful links: [`MPI_Gather`][MPI_Gather], [`MPI_Bcast`][MPI_Bcast], [`MPI_Allga
 [MPI_Bcast]: 
 [MPI_Allgather]: 
 
+prom
+----
+The teacher peered over their grading at the class. The students were behaving pretty well, especially considering it was the Friday before prom. Not too much noise. Venezuela and South Africa were working together, as were Belarus and Belize. Togo was rubbing their temples, concentrating hard. It looked like Egypt had already finished their assignment. And there was America, staring out of the window as usual. America seemed to be doing a lot more daydreaming than thinking lately.
+
+If only the teacher knew. America spent a lot of time daydreaming, it's true. But that doesn't mean they weren't thinking. America thought a lot.
+	* Sometimes they thought about milkshakes and hamburgers.
+	* Sometimes they thought about basketball and the beach.
+	* Sometimes they just thought about freedom.
+But mostly, they thought about Japan.
+	* They thought about Japan's perfect hair.
+	* They thought about Japan's dreamy eyes.
+	* They thought about Japan's witty sense of humor and breathtaking intellect.
+They could think about Japan all day.
+
+It's official: America had a crush on Japan. A *big* crush. And with prom on Saturday, it was time to act. America had to ask Japan to prom, and they had to ask today. There was only one problem: America didn't have Japan's phone number!
+
+Help America ask Japan to prom using MPI. Here's what should happen:
+	* America should call all of its friends and ask them for help asking Japan to prom. They should then wait to see if Japan calls them.
+	* Each other country should wait by the phone. If someone (anyone) calls them, they should call of their friends and pass on the message: America wants to know if Japan wants to go to prom.
+	* If Japan gets the message, they should call America and tell them whether they accept their offer!
+Each country has an array `neighbors` of `bool`s. `neighbors[i]` being true means that the country is friends with country `i`. Countries can only call countries they are friends with, but they can receive calls from anyone. (Friendship is not necessarily reciprocal, unfortunately.)
+
+Edit the file `src/prom/main.c` so that your code accomplishes the above. Compile with `make prom` and run with `mpirun -n $N bin/prom/main`. You can look at `src/prom/solution.c` if you need help.
+
+Helpful links: [`MPI_Isend`][MPI_Isend], [`MPI_Irecv`][MPI_Irecv], [`MPI_Request`][MPI_Request]
+[MPI_Isend]: 
+[MPI_Irecv]: 
+[MPI_Request]: 
+
 Acknowledgments
 ===============
 `data/telephone/arpabet_common.txt` is a subset of the [CMU Pronouncing Dictionary version 0.7b][cmudict]. Its entries are restricted to the 2^14 most common English words according to [Peter Norvig][norvig]. Norvig's list is derived from [a corpus][corpus] distributed by the [Linguistic Data Consortium][LDC] and available under the [Web 1T 5-gram Version 1 Agreement][agreement]. Note that only one pronunciation per word has been retained. The commands used to generate this file can be viewed by executing
