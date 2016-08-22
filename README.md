@@ -28,6 +28,20 @@ Helpful links: [`MPI_Send`][MPI_Send], [`MPI_Recv`][MPI_Recv], [`MPI_Status`][MP
 [MPI_Recv]: 
 [MPI_Status]: 
 
+homework
+--------
+You are a student in an arithmetic class, and this week your teacher is teaching you multiplication. Your homework is to fill out a times table. Unfortunately, you and the other students are *very lazy*, and you've decided to cheat. Do this in three ways:
+	* Have each student fill out one row (or column) of the times table and send that row (column) to every other student. By the time you're done, everyone should have a full times table.
+	* Have each student fill out one row of the times table. Instead of having the students individually send rows to each other, use `MPI_Gather` and `MPI_Bcast` to share the products.
+	* Have each student fill out one row of the times table, and then use `MPI_Allgather` to exchange all of the information all at once!
+
+Edit the file `src/homework/main.c` so that every processor ends up with the full times table, which is held in the variable `times_table`, an array of length `size` of arrays of length `size` of `char`s. Compile with `make homework` and run with `mpirun -n $N bin/homework/main`. You can look at `src/homework/solution.c` if you need help.
+
+Helpful links: [`MPI_Gather`][MPI_Gather], [`MPI_Bcast`][MPI_Bcast], [`MPI_Allgather`][MPI_Allgather]
+[MPI_Gather]: 
+[MPI_Bcast]: 
+[MPI_Allgather]: 
+
 Acknowledgments
 ===============
 `data/telephone/arpabet_common.txt` is a subset of the [CMU Pronouncing Dictionary version 0.7b][cmudict]. Its entries are restricted to the 2^14 most common English words according to [Peter Norvig][norvig]. Norvig's list is derived from [a corpus][corpus] distributed by the [Linguistic Data Consortium][LDC] and available under the [Web 1T 5-gram Version 1 Agreement][agreement]. Note that only one pronunciation per word has been retained. The commands used to generate this file can be viewed by executing
