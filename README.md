@@ -29,9 +29,10 @@ Helpful links: [`MPI_Send`][MPI_Send], [`MPI_Recv`][MPI_Recv]
 homework
 --------
 You are a student in an arithmetic class, and this week your teacher is teaching you multiplication. Your homework is to fill out a times table. Unfortunately, you and the other students are *very lazy*, and you've decided to cheat. Do this in three ways:
-	* Have each student fill out one row (or column) of the times table and send that row (column) to every other student. By the time you're done, everyone should have a full times table.
-	* Have each student fill out one row of the times table. Instead of having the students individually send rows to each other, use `MPI_Gather` and `MPI_Bcast` to share the products.
-	* Have each student fill out one row of the times table, and then use `MPI_Allgather` to exchange all of the information all at once!
+
+* Have each student fill out one row (or column) of the times table and send that row (column) to every other student. By the time you're done, everyone should have a full times table.
+* Have each student fill out one row of the times table. Instead of having the students individually send rows to each other, use `MPI_Gather` and `MPI_Bcast` to share the products.
+* Have each student fill out one row of the times table, and then use `MPI_Allgather` to exchange all of the information all at once!
 
 Edit the file `src/homework/main.c` so that every processor ends up with the full times table, which is held in the variable `times_table`, an array of length `size` of arrays of length `size` of `char`s. Compile with `make homework` and run with `mpirun -n $N bin/homework/main`. You can look at `src/homework/solution.c` if you need help.
 
@@ -45,21 +46,25 @@ prom
 The teacher peered over their grading at the class. The students were behaving pretty well, especially considering it was the Friday before prom. Not too much noise. Venezuela and South Africa were working together, as were Belarus and Belize. Togo was rubbing their temples, concentrating hard. It looked like Egypt had already finished their assignment. And there was America, staring out of the window as usual. America seemed to be doing a lot more daydreaming than thinking lately.
 
 If only the teacher knew. America spent a lot of time daydreaming, it's true. But that doesn't mean they weren't thinking. America thought a lot.
-	* Sometimes they thought about milkshakes and hamburgers.
-	* Sometimes they thought about basketball and the beach.
-	* Sometimes they just thought about freedom.
+
+* Sometimes they thought about milkshakes and hamburgers.
+* Sometimes they thought about basketball and the beach.
+* Sometimes they just thought about freedom.
+
 But mostly, they thought about Japan.
-	* They thought about Japan's perfect hair.
-	* They thought about Japan's dreamy eyes.
-	* They thought about Japan's witty sense of humor and breathtaking intellect.
+
+* They thought about Japan's perfect hair.
+* They thought about Japan's dreamy eyes.
+* They thought about Japan's witty sense of humor and breathtaking intellect.
+
 They could think about Japan all day.
 
 It's official: America had a crush on Japan. A *big* crush. And with prom on Saturday, it was time to act. America had to ask Japan to prom, and they had to ask today. There was only one problem: America didn't have Japan's phone number!
 
 Help America ask Japan to prom using MPI. Here's what should happen:
-	* America should call all of its friends and ask them for help asking Japan to prom. They should then wait to see if Japan calls them.
-	* Each other country should wait by the phone. If someone (anyone) calls them, they should call of their friends and pass on the message: America wants to know if Japan wants to go to prom.
-	* If Japan gets the message, they should call America and tell them whether they accept their offer!
+* America should call all of its friends and ask them for help asking Japan to prom. They should then wait to see if Japan calls them.
+* Each other country should wait by the phone. If someone (anyone) calls them, they should call of their friends and pass on the message: America wants to know if Japan wants to go to prom.
+* If Japan gets the message, they should call America and tell them whether they accept their offer!
 Each country has an array `neighbors` of `bool`s. `neighbors[i]` being true means that the country is friends with country `i`. Countries can only call countries they are friends with, but they can receive calls from anyone. (Friendship is not necessarily reciprocal, unfortunately.)
 
 Edit the file `src/prom/main.c` so that your code accomplishes the above. Compile with `make prom` and run with `mpirun -n $N bin/prom/main`. You can look at `src/prom/solution.c` if you need help.
