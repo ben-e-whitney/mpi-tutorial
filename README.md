@@ -17,6 +17,17 @@ Helpful links: [`MPI_Init`][MPI_Init], [`MPI_Finalize`][MPI_Finalize], [`MPI_Com
 [MPI_Comm_rank]: 
 [MPI_COMM_WORLD]: 
 
+telephone
+---------
+Telephone is a game for children (or processors). All of the children sit in a circle. The game starts when one child whispers a message to the child sitting to their right. That child then whispers the message to the child to their right, and so on until the message reaches the child who first whispered it. It's kind of hard to understand whispers, so the message the first child hears might not be the same as the one they whispered!
+
+Edit the file `src/telephone/main.c` so that each processor passes the message to the processor with rank one greater. (Who should the processor with rank `size - 1` communicate with?) The message is held in the variable `whispers`, which is an array of length `argc - 1` of arrays of length `MAX_WORD_LENGTH` of `char`s. Compile with `make telephone` and run with `mpirun -n $N bin/telephone/main $message`. You can look at `src/telephone/solution.c` if you need help.
+
+Helpful links: [`MPI_Send`][MPI_Send], [`MPI_Recv`][MPI_Recv], [`MPI_Status`][MPI_Status]
+[MPI_Send]: 
+[MPI_Recv]: 
+[MPI_Status]: 
+
 Acknowledgments
 ===============
 `data/telephone/arpabet_common.txt` is a subset of the [CMU Pronouncing Dictionary version 0.7b][cmudict]. Its entries are restricted to the 2^14 most common English words according to [Peter Norvig][norvig]. Norvig's list is derived from [a corpus][corpus] distributed by the [Linguistic Data Consortium][LDC] and available under the [Web 1T 5-gram Version 1 Agreement][agreement]. Note that only one pronunciation per word has been retained. The commands used to generate this file can be viewed by executing
