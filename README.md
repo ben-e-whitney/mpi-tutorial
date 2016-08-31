@@ -63,9 +63,9 @@ It's official: America had a crush on Japan. A *big* crush. And with prom on Sat
 
 Help America ask Japan to prom using MPI. Here's what should happen:
 * America should call all of its friends and ask them for help asking Japan to prom. They should then wait to see if Japan calls them.
-* Each other country should wait by the phone. If someone (anyone) calls them, they should call of their friends and pass on the message: America wants to know if Japan wants to go to prom.
+* Each other country should wait by the phone. If someone (anyone) calls them, they should call all of their friends and pass on the message: America wants to know if Japan wants to go to prom.
 * If Japan gets the message, they should call America and tell them whether they accept their offer!
-Each country has an array `neighbors` of `bool`s. `neighbors[i]` being true means that the country is friends with country `i`. Countries can only call countries they are friends with, but they can receive calls from anyone. (Friendship is not necessarily reciprocal, unfortunately.)
+Each country has an array `neighbors` of `bool`s. `neighbors[i]` being `true` means that the country is friends with country `i`. Countries can only call countries they are friends with, but they can receive calls from anyone. (Friendship is not necessarily reciprocal, unfortunately.)
 
 Edit the file `src/prom/main.c` so that your code accomplishes the above. Compile with `make prom` and run with `mpirun -n $N bin/prom/main`. You can look at `src/prom/solution.c` if you need help.
 
