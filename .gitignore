@@ -3,3 +3,4 @@ obj
 include/telephone/arpabet.h
 src/telephone/arpabet.c
 include/prom/constants.h
+__pycache__/

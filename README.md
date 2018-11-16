@@ -23,6 +23,7 @@ Telephone is a game for children (or processors). All of the children sit in a c
 Edit the file `src/telephone/main.c` so that each processor passes the message to the processor with rank one greater. (Who should the processor with rank `size - 1` communicate with?) The message is held in the variable `whispers`, which is an array of length `argc - 1` of arrays of length `MAX_WORD_LENGTH` of `char`s. Compile with `make telephone` and run with `mpirun -n $N bin/telephone/main $message`. You can look at `src/telephone/solution.c` if you need help.
 
 Helpful links: [`MPI_Send`][MPI_Send], [`MPI_Recv`][MPI_Recv]
+
 [MPI_Send]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Send.html
 [MPI_Recv]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Recv.html
 
@@ -37,6 +38,7 @@ You are a student in an arithmetic class, and this week your teacher is teaching
 Edit the file `src/homework/main.c` so that every processor ends up with the full times table, which is held in the variable `times_table`, an array of length `size` of arrays of length `size` of `char`s. Compile with `make homework` and run with `mpirun -n $N bin/homework/main`. You can look at `src/homework/solution.c` if you need help.
 
 Helpful links: [`MPI_Gather`][MPI_Gather], [`MPI_Bcast`][MPI_Bcast], [`MPI_Allgather`][MPI_Allgather]
+
 [MPI_Gather]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Gather.html
 [MPI_Bcast]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Bcast.html
 [MPI_Allgather]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Allgather.html
@@ -62,14 +64,17 @@ They could think about Japan all day.
 It's official: America had a crush on Japan. A *big* crush. And with prom on Saturday, it was time to act. America had to ask Japan to prom, and they had to ask today. There was only one problem: America didn't have Japan's phone number!
 
 Help America ask Japan to prom using MPI. Here's what should happen:
+
 * America should call all of its friends and ask them for help asking Japan to prom. They should then wait to see if Japan calls them.
 * Each other country should wait by the phone. If someone (anyone) calls them, they should call all of their friends and pass on the message: America wants to know if Japan wants to go to prom.
 * If Japan gets the message, they should call America and tell them whether they accept their offer!
+
 Each country has an array `neighbors` of `bool`s. `neighbors[i]` being `true` means that the country is friends with country `i`. Countries can only call countries they are friends with, but they can receive calls from anyone. (Friendship is not necessarily reciprocal, unfortunately.)
 
 Edit the file `src/prom/main.c` so that your code accomplishes the above. Compile with `make prom` and run with `mpirun -n $N bin/prom/main`. You can look at `src/prom/solution.c` if you need help.
 
 Helpful links: [`MPI_Isend`][MPI_Isend], [`MPI_Irecv`][MPI_Irecv]
+
 [MPI_Isend]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Isend.html
 [MPI_Irecv]: http://www.mpich.org/static/docs/v3.2/www3/MPI_Irecv.html
 
